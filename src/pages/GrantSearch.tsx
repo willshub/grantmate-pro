@@ -72,19 +72,25 @@ const GrantSearch: React.FC = () => {
   const handleClarificationSubmit = async (clarifiedQuery: string) => {
     setClarificationDialog({ isOpen: false, message: '' });
     setSearchQuery(clarifiedQuery);
-    
     // Add refinement to search history
     setSearchHistory(prev => [...prev, {
       query: clarifiedQuery,
       timestamp: new Date(),
       isRefinement: true
     }]);
-    
     try {
       const grants = await searchGrants({
         searchTerm: clarifiedQuery
       });
-      setSearchResults(grants);
+      if (Array.isArray(grants)) {
+        setSearchResults(grants);
+      } else if ('needsClarification' in grants) {
+        setClarificationDialog({
+          isOpen: true,
+          message: grants.message
+        });
+        setSearchResults([]);
+      }
     } catch (err) {
       console.error('Search failed:', err);
       setSearchResults([]);
