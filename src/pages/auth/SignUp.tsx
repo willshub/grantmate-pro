@@ -34,7 +34,7 @@ const SignUp: React.FC = () => {
     }
 
     try {
-      const { data, error } = await signUp(email, password);
+      const { error } = await signUp(email, password);
       
       if (error) {
         if (error.message.includes('rate limit') || error.message.includes('429')) {

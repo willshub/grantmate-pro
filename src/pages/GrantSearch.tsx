@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '../components/ui/Button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/Card';
+import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card';
 import { useGrantFinder } from '../hooks/useGrantFinder';
 import type { FoundGrant } from '../lib/grantFinder';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '../components/ui/Dialog';
@@ -30,7 +30,6 @@ const GrantSearch: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<FoundGrant[]>([]);
   const [hasSearched, setHasSearched] = useState(false);
-  const [searchCount, setSearchCount] = useState(0);
   const [searchHistory, setSearchHistory] = useState<SearchHistoryItem[]>([]);
   const [isHistoryExpanded, setIsHistoryExpanded] = useState(true);
   const [clarificationDialog, setClarificationDialog] = useState<{
@@ -46,35 +45,23 @@ const GrantSearch: React.FC = () => {
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!searchQuery.trim()) return;
-
-    // COMMENTED OUT FOR TESTING - Increment search count for demo rate limiting
-    // const newCount = searchCount + 1;
-    // setSearchCount(newCount);
-
     setHasSearched(true);
     clearError();
-
-    // Add to search history
     setSearchHistory(prev => [...prev, {
       query: searchQuery,
       timestamp: new Date(),
       isRefinement: false
     }]);
-
     try {
-      const result = await searchGrants({
-        searchTerm: searchQuery
-      });
-
-      // Check if we got a clarification request
-      if ('needsClarification' in result) {
+      const result = await searchGrants({ searchTerm: searchQuery });
+      if (Array.isArray(result)) {
+        setSearchResults(result);
+      } else if ('needsClarification' in result) {
         setClarificationDialog({
           isOpen: true,
           message: result.message
         });
         setSearchResults([]);
-      } else {
-        setSearchResults(result);
       }
     } catch (err) {
       console.error('Search failed:', err);
@@ -108,20 +95,16 @@ const GrantSearch: React.FC = () => {
     setSearchQuery(query);
     setHasSearched(true);
     clearError();
-
     try {
-      const result = await searchGrants({
-        searchTerm: query
-      });
-
-      if ('needsClarification' in result) {
+      const result = await searchGrants({ searchTerm: query });
+      if (Array.isArray(result)) {
+        setSearchResults(result);
+      } else if ('needsClarification' in result) {
         setClarificationDialog({
           isOpen: true,
           message: result.message
         });
         setSearchResults([]);
-      } else {
-        setSearchResults(result as FoundGrant[]);
       }
     } catch (err) {
       console.error('Search failed:', err);

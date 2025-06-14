@@ -248,11 +248,6 @@ const Dashboard: React.FC = () => {
                 <ClientCard 
                   key={client.id} 
                   client={client} 
-                  onClientUpdate={(updatedClient) => {
-                    setClients(prev => prev.map(c => 
-                      c.id === updatedClient.id ? updatedClient : c
-                    ));
-                  }}
                 />
               ))}
             </div>
