@@ -139,10 +139,6 @@ This funding will enable the foundation to address these systemic barriers throu
             <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
               <ClientCard
                 client={sampleClient}
-                applicationCount={3}
-                lastUpdated="2 days ago"
-                onViewDetails={() => console.log('View details')}
-                onNewApplication={() => console.log('New application')}
               />
               <ClientCard
                 client={{
@@ -153,10 +149,6 @@ This funding will enable the foundation to address these systemic barriers throu
                   tags: ['Healthcare', 'Community', 'Access'],
                   contact_person: 'Dr. Michael Chen'
                 }}
-                applicationCount={1}
-                lastUpdated="1 week ago"
-                onViewDetails={() => console.log('View details')}
-                onNewApplication={() => console.log('New application')}
               />
             </div>
           </section>

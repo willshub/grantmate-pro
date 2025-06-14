@@ -4,7 +4,6 @@ import { Button } from '../components/ui/Button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/Card';
 import { useAuth } from '../contexts/AuthContext';
 import { supabase } from '../lib/supabase';
-import type { Client } from '../types';
 
 const ClientForm: React.FC = () => {
   const navigate = useNavigate();

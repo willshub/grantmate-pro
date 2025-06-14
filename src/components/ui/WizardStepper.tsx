@@ -1,5 +1,4 @@
 import React from 'react';
-import { Card, CardContent } from './Card';
 
 interface Step {
   id: string;

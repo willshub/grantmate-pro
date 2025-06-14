@@ -6,16 +6,10 @@ import type { Client } from '../../types';
 
 interface ClientCardProps {
   client: Client;
-  lastUpdated: string;
-  onViewDetails: () => void;
-  onNewApplication: () => void;
 }
 
 export const ClientCard: React.FC<ClientCardProps> = ({
   client,
-  lastUpdated,
-  onViewDetails,
-  onNewApplication,
 }) => {
   const navigate = useNavigate();
 

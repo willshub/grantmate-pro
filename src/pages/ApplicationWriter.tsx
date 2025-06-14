@@ -163,11 +163,7 @@ const ApplicationWriter: React.FC = () => {
     }
   };
 
-  const handleSectionSave = (content: string) => {
-    setSections(prev => ({
-      ...prev,
-      [currentSection]: content
-    }));
+  const handleSectionSave = () => {
     setLastSaved(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
   };
 
